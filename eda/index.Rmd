@@ -7,7 +7,13 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 
-data <- read.csv('../data/us_state_vaccinations.csv') 
+data <- read.csv('../data/global_dataset.csv') 
+
+# filtered data which have complete data
+data <- data %>%
+  filter(
+    Case...death.data.by.sex. == "Yes"
+  )
 ```
 
 
