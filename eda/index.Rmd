@@ -6,23 +6,57 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
+library(ggplot2)
 
 data <- read.csv('../data/global_dataset.csv') 
 
-# filtered data which have complete data
+# filtered data which have complete disaggregated data
 data <- data %>%
   filter(
     Case...death.data.by.sex. == "Yes"
   )
+
+# print column names
+data_colnames <- data %>%
+  colnames()
+
+# remove NA
+data <- na.omit(data)
+
+# change proportion of deaths from string to int
+
+# remove % sign
+data$Deaths....male. <- gsub("%$","",data$Deaths....male.)
+data$Deaths....female. <- gsub("%$","",data$Deaths....female.)
+
+data$Cases....male. <- gsub("%$","",data$Cases....male.)
+data$Cases....female. <- gsub("%$","",data$Cases....female.)
+# str to int
+data$Deaths....male. <- strtoi(data$Deaths....male.)
+data$Deaths....female. <- strtoi(data$Deaths....female.)
+
+data$Cases....male. <- strtoi(data$Cases....male.)
+data$Cases....female. <- strtoi(data$Cases....female.)
+
+# mean proportion of deaths / cases by gender
+female_prop_deaths_mean <- mean(data$Deaths....female.)
+male_prop_deaths_mean <- mean(data$Deaths....male.)
+female_prop_cases_mean <- mean(data$Cases....female.)
+male_prop_cases_mean <- mean(data$Cases....male.)
 ```
 
 
 
-```{Distribution of Variables r, include=FALSE} 
-
+```{r Distribution of Variables, include=FALSE} 
+# plot for distribution of deaths and case proportions for Females
+Gender_deaths_plot <- ggplot(data = data, aes(x = Cases....female.,
+                                              y = Deaths....female.)) +
+  geom_point() +
+  labs(title = "Proportion of Deaths vs Proportion of Cases for Females", x = "Proportion of confirmed cases Female (%)", y = "Proportion of deaths in confirmed cases Female (%)")
+Gender_deaths_plot
 ``` 
 
 
-```{Relationships between Variables r, include=FALSE} 
+```{r Relationships between Variables, include=FALSE} 
 
 ``` 
