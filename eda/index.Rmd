@@ -5,11 +5,18 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+
+data <- read.csv('../data/us_state_vaccinations.csv') 
 ```
 
 
 
-```{r} 
-data <- read.csv('../data/us_state_vaccinations.csv') 
+```{Distribution of Variables r, include=FALSE} 
+
+``` 
+
+
+```{Relationships between Variables r, include=FALSE} 
 
 ``` 
