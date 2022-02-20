@@ -10,7 +10,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r} 
-setwd('~/GitHub/478_project')
-data <- read.csv('data/us_state_vaccinations.csv') 
+data <- read.csv('../data/us_state_vaccinations.csv') 
 
 ``` 
