@@ -10,6 +10,7 @@ library(ggplot2)
 
 data <- read.csv('../data/global_dataset.csv') 
 gdp_data <- read.csv('../data/gdp_dataset.csv') 
+raw_state_data <- read.csv('../data/us_state_vaccinations.csv') 
 
 # filtered data which have complete disaggregated data
 data <- data %>%
@@ -79,3 +80,49 @@ GDP_plot <- ggplot(data = top_15_country_deaths, aes(x = Country,
 
 GDP_plot
 ``` 
+
+
+
+
+
+```{r}
+library(tidyverse)
+library(leaflet)
+library(tigris)
+
+state_data <- raw_state_data %>% 
+  group_by(location) %>% 
+  filter(date == max(date)) %>% 
+  select(location, total_boosters_per_hundred)
+
+states <- states(cb = T)
+
+
+states_merged <- geo_join(states, state_data, "NAME", "location")
+states_merged <- subset(states_merged, !is.na(total_boosters_per_hundred))
+
+pal <- colorNumeric("Blues", domain = states_merged$total_boosters_per_hundred)
+
+
+
+map <- leaflet(states_merged) %>%
+  addTiles() %>% 
+  addPolygons(data = states_merged,
+              color = "black",
+              opacity = 1,
+              fillColor = ~pal(states_merged$total_boosters_per_hundred),
+              fillOpacity = 1, 
+              weight = 1, 
+              smoothFactor = 0.8,
+              popup = ~total_boosters_per_hundred) %>% 
+  addLegend("bottomleft", pal = pal, values = states_merged$total_boosters_per_hundred, 
+                layerId = "colorLegend", title = "Booster Shot %", opacity = 1)
+
+map
+
+
+
+
+
+
+```
