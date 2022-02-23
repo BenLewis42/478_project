@@ -66,6 +66,16 @@ Gender_deaths_plot
 ``` 
 
 
+```{r Distribution of Variables, warning=FALSE, echo=FALSE} 
+# plot for distribution of deaths and case proportions for Females
+Male_deaths_plot <- ggplot(data = data, aes(x = Cases....male.,
+                                              y = Deaths....male.)) +
+  geom_point() +
+  labs(title = "Proportion of Deaths for Males vs Proportion of Cases for Males", x = "Proportion of confirmed cases Male (%)", y = "Proportion of deaths in confirmed cases Male (%)")
+Male_deaths_plot
+``` 
+We created this chart in order to be able to compare it to the "Proportion of Deaths for Females vs Proportion of Cases for Females" chart. As you can see, the proportion of confirmed cases for males goes above 60%, while for women, it plateaus at 60%. Due to the higher confirmed cases, it makes sense that the proportion of deaths in men will be greater than women. This also means that more men are coming into contact with COVID-19, whether it be from work or even not wearing a mask.
+
 ```{r Relationships between Variables, warning=FALSE, echo=FALSE} 
 top_15_country_deaths <- data %>%
   arrange(desc(Deaths.where.sex.disaggregated.data.is.available)) %>%
@@ -82,10 +92,7 @@ GDP_plot
 ``` 
 
 
-
-
-
-```{r}
+```{r Relationships between Variables, warning=FALSE, echo=FALSE} 
 library(tidyverse)
 library(leaflet)
 library(tigris)
@@ -120,9 +127,6 @@ map <- leaflet(states_merged) %>%
 
 map
 
-
-
-
-
-
 ```
+
+
