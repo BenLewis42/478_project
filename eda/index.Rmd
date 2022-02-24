@@ -1,8 +1,8 @@
 ---
-title: "index"
+title: "Exploratory Analysis"
 output: html_document
 ---
-
+###### Niha Gaddam, Tadeus Kartawijaya, Ben Lewis, Rishi Goyal
 ```{r setup, warning=FALSE, echo=FALSE, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
@@ -57,9 +57,10 @@ male_prop_deaths_mean <- mean(data$Deaths....male.)
 female_prop_cases_mean <- mean(data$Cases....female.)
 male_prop_cases_mean <- mean(data$Cases....male.)
 ```
+## Distribution of Variables
 We found that the mean for female deaths is `r `female_prop_deaths_mean`and for male deaths is `r male_prop_deaths_mean`. The mean for female cases is `r female_prop_cases_mean` and for male cases is `r male_prop_cases_mean`.
 
-```{r Distribution of Variables1, warning=FALSE, echo=FALSE} 
+```{r Distribution of Variables1, warning=FALSE, echo=FALSE, message=FALSE} 
 # plot for distribution of deaths and case proportions for Females
 Gender_deaths_plot <- ggplot(data = data, aes(x = Cases....female.,
                                               y = Deaths....female.)) +
@@ -70,7 +71,7 @@ Gender_deaths_plot
 
 This chart shows the proportion of deaths and cases for females. This graph shows that while it is closer to even (50%) some countries have proportions that are significantly lower for females. This may be disrupted by testing access for females in those countries. 
 
-```{r Distribution of Variables2, warning=FALSE, echo=FALSE} 
+```{r Distribution of Variables2, warning=FALSE, echo=FALSE, message=FALSE} 
 # plot for distribution of deaths and case proportions for Females
 Male_deaths_plot <- ggplot(data = data, aes(x = Cases....male.,
                                               y = Deaths....male.)) +
@@ -78,16 +79,19 @@ Male_deaths_plot <- ggplot(data = data, aes(x = Cases....male.,
   labs(title = "Proportion of Deaths for Males vs Proportion of Cases for Males", x = "Proportion of confirmed cases Male (%)", y = "Proportion of deaths in confirmed cases Male (%)")
 Male_deaths_plot
 ``` 
+
 We created this chart in order to be able to compare it to the "Proportion of Deaths for Females vs Proportion of Cases for Females" chart. As you can see, the proportion of confirmed cases for males goes above 60%, while for women, it plateaus at 60%. Due to the higher confirmed cases, it makes sense that the proportion of deaths in men will be greater than women. This also means that more men are coming into contact with COVID-19, whether it be from work or even not wearing a mask.
 
-```{r Relationships between Variables1, warning=FALSE, echo=FALSE} 
+## Relationships Between Variables
+```{r Relationships between Variables1, warning=FALSE, echo=FALSE, message=FALSE} 
 top_15_country_deaths <- data %>%
+  filter(Deaths.date == "2022/03/01") %>%
   arrange(desc(Deaths.where.sex.disaggregated.data.is.available)) %>%
   select(Country, Deaths.where.sex.disaggregated.data.is.available, X2020) %>%
   rename(Deaths = Deaths.where.sex.disaggregated.data.is.available, GDP = X2020) %>%
   top_n(15)
 
-GDP_plot <- ggplot(data = top_15_country_deaths, aes(x = Country,
+GDP_plot <- ggplot(data = top_15_country_deaths, aes(x = fct_inorder(Country),
                                     y = Deaths, color = GDP)) +
   geom_point() +
   labs(title = "Top 15 COVID Deaths by Country vs GDP", x = "Country", y = "Deaths from COVID") + theme(axis.text.x = element_text(angle = 90))
@@ -95,8 +99,8 @@ GDP_plot <- ggplot(data = top_15_country_deaths, aes(x = Country,
 GDP_plot
 ``` 
 
-
-```{r Relationships between Variables2, warning=FALSE, echo=FALSE} 
+This plot depicts fifteen countries with the highest amount of COVID-related deaths in March 2022. The chart is also color coded to show the varying GDP values of each country. The visualization demonstrates that surprisingly, some countries with a higher GDP have a higher amount of deaths. This might mean that other factors such as timing can outweigh having more access to more resources and knowledge on fighting the virus. Furthermore, the data might not also account for COVID deaths that have not been recorded.
+```{r Relationships between Variables2, warning=FALSE, echo=FALSE, message=FALSE} 
 state_data <- raw_state_data %>% 
   group_by(location) %>% 
   filter(date == max(date)) %>% 
