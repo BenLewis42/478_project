@@ -23,6 +23,7 @@ data <- data %>%
 
 #select 2020 GDP values
 gdp_data <- gdp_data %>%
+  
   select(Country.Name, X2020)
 
 # print column names
@@ -100,7 +101,7 @@ GDP_plot
 ``` 
 
 This plot depicts fifteen countries with the highest amount of COVID-related deaths in March 2022. The chart is also color coded to show the varying GDP values of each country. The visualization demonstrates that surprisingly, some countries with a higher GDP have a higher amount of deaths. This might mean that other factors such as timing can outweigh having more access to more resources and knowledge on fighting the virus. Furthermore, the data might not also account for COVID deaths that have not been recorded.
-```{r Relationships between Variables2, warning=FALSE, echo=FALSE, message=FALSE} 
+```{r Relationships between Variables2, warning=FALSE, echo=FALSE, message=FALSE, include = FALSE} 
 state_data <- raw_state_data %>% 
   group_by(location) %>% 
   filter(date == max(date)) %>% 
@@ -129,8 +130,14 @@ map <- leaflet(states_merged) %>%
   addLegend("bottomleft", pal = pal, values = states_merged$total_boosters_per_hundred, 
                 layerId = "colorLegend", title = "Booster Shot %", opacity = 1)
 
-map
+
 
 ```
 
+```{r, echo=FALSE}
+map
+
+
+```
+This map of the United States depicts percent of population who's taken a booster dose of a COVID-19 Vaccine. This shows that the states with highest booster percentage seem to be on the coasts, with the lowest percentage in the Southern US. This emphasizes the importance of providing and advocating for boosters in these states. 
 
