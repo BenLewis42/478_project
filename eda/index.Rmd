@@ -59,7 +59,7 @@ female_prop_cases_mean <- mean(data$Cases....female.)
 male_prop_cases_mean <- mean(data$Cases....male.)
 ```
 ## Distribution of Variables
-We found that the mean for female deaths is `r `female_prop_deaths_mean`and for male deaths is `r male_prop_deaths_mean`. The mean for female cases is `r female_prop_cases_mean` and for male cases is `r male_prop_cases_mean`.
+We found that the mean for female deaths is `r female_prop_deaths_mean`and for male deaths is `r male_prop_deaths_mean`. The mean for female cases is `r female_prop_cases_mean` and for male cases is `r male_prop_cases_mean`.
 
 ```{r Distribution of Variables1, warning=FALSE, echo=FALSE, message=FALSE} 
 # plot for distribution of deaths and case proportions for Females
