@@ -15,6 +15,9 @@ data <- read.csv('../data/global_dataset.csv')
 gdp_data <- read.csv('../data/gdp_dataset.csv') 
 raw_state_data <- read.csv('../data/us_state_vaccinations.csv') 
 
+# fix name (probably only a problem for my machine) -Ben
+colnames(gdp_data)[1] <- "Country.Name"
+
 # filtered data which have complete disaggregated data
 data <- data %>%
   filter(
@@ -105,15 +108,17 @@ This plot depicts fifteen countries with the highest amount of COVID-related dea
 state_data <- raw_state_data %>% 
   group_by(location) %>% 
   filter(date == max(date)) %>% 
-  select(location, total_boosters_per_hundred)
+  select(location, 
+         total_boosters_per_hundred,
+         total_vaccinations_per_hundred)
 
 states <- states(cb = T)
 
 
 states_merged <- geo_join(states, state_data, "NAME", "location")
-states_merged <- subset(states_merged, !is.na(total_boosters_per_hundred))
+states_merged <- subset(states_merged, !is.na(total_vaccinations_per_hundred))
 
-pal <- colorNumeric("Blues", domain = states_merged$total_boosters_per_hundred)
+pal <- colorNumeric("Blues", domain = states_merged$total_vaccinations_per_hundred)
 
 
 
@@ -122,14 +127,17 @@ map <- leaflet(states_merged) %>%
   addPolygons(data = states_merged,
               color = "black",
               opacity = 1,
-              fillColor = ~pal(states_merged$total_boosters_per_hundred),
+              fillColor = ~pal(states_merged$total_vaccinations_per_hundred),
               fillOpacity = 1, 
               weight = 1, 
               smoothFactor = 0.8,
-              popup = ~total_boosters_per_hundred) %>% 
-  addLegend("bottomleft", pal = pal, values = states_merged$total_boosters_per_hundred, 
-                layerId = "colorLegend", title = "Booster Shot %", opacity = 1)
+              popup = ~total_vaccinations_per_hundred) %>% 
+  addLegend("bottomleft", pal = pal, values = states_merged$total_vaccinations_per_hundred, 
+                layerId = "colorLegend", title = "Vax %", opacity = 1)
 
+
+
+map
 
 
 ```
