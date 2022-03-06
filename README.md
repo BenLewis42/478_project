@@ -5,7 +5,7 @@
 
 **What is the purpose of your research project?**
 
-Our research project's purpose is to explore patterns in COVID-19 vaccination rates in the United States related to other factors such as age, gender, race/ethnicity, socioeconomic status, etc.
+Our research project's purpose is to explore patterns in COVID-19 vaccination rates and deaths in the United States related to other factors such as age, gender, race/ethnicity, socioeconomic status, etc.
 
 
 **What other research has been done in this area? Make sure to include 3+ links to related works, as well as a summary of what that work has discovered.**

@@ -1,11 +1,28 @@
 library(shiny)
 library(leaflet)
 
+tab1 <-  fluidPage(
+  h1("Introduction"),
+  tags$p(
+    id = "Introduction",
+    "Our research project’s purpose is to explore patterns in COVID-19 cases, deaths, and vaccination 
+    rates and observe how factors such as location and factor impact these metrics.")
+)
+
+tab2 <- fluidPage(
+  leafletOutput("map"))
 
 
-ui <- navbarPage("My Application",
-                 tabPanel("Component 1"),
-                 tabPanel("Component 2",
-                          leafletOutput("map")),
-                 tabPanel("Component 3")
+tab3 <- fluidPage(
+)
+
+tab4 <- fluidPage(
+)
+
+
+ui <- navbarPage("INFO 478: Covid 19",
+                 tabPanel("Introduction", tab1),
+                 tabPanel("Location", tab2),
+                 tabPanel("Gender", tab3),
+                 tabPanel("Conclusion", tab3)
 )
