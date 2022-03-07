@@ -60,7 +60,6 @@ male_prop_cases_mean <- mean(data$Cases....male.)
 
 
 
-# -----
 
 # plot for distribution of deaths and case proportions for Females
 Gender_deaths_plot <- ggplot(data = data, aes(x = Cases....female.,
@@ -71,7 +70,7 @@ Gender_deaths_plot
 
 
 
-# -----
+
 
 # plot for distribution of deaths and case proportions for Females
 Male_deaths_plot <- ggplot(data = data, aes(x = Cases....male.,
@@ -83,7 +82,7 @@ Male_deaths_plot
 
 
 
-# -----
+
 
 
 top_15_country_deaths <- data %>%
@@ -105,7 +104,7 @@ palette1 <- c("blue","red")
 
 
 
-# -----
+
 
 state_data <- raw_state_data %>% 
   group_by(location) %>% 
@@ -121,23 +120,23 @@ states_merged <- subset(states_merged, !is.na(total_boosters_per_hundred))
 pal <- colorNumeric("Blues", domain = states_merged$total_boosters_per_hundred)
 
 
-# 
-# map <- leaflet(states_merged) %>%
-#   addTiles() %>% 
-#   addPolygons(data = states_merged,
-#               color = "black",
-#               opacity = 1,
-#               fillColor = ~pal(states_merged$total_boosters_per_hundred),
-#               fillOpacity = 1, 
-#               weight = 1, 
-#               smoothFactor = 0.8,
-#               popup = ~total_boosters_per_hundred) %>% 
-#   addLegend("bottomleft", pal = pal, values = states_merged$total_boosters_per_hundred, 
-#             layerId = "colorLegend", title = "Booster Shot %", opacity = 1)
+
+map <- leaflet(states_merged) %>%
+   addTiles() %>% 
+   addPolygons(data = states_merged,
+               color = "black",
+               opacity = 1,
+               fillColor = ~pal(states_merged$total_boosters_per_hundred),
+               fillOpacity = 1, 
+               weight = 1, 
+               smoothFactor = 0.8,
+               popup = ~total_boosters_per_hundred) %>% 
+   addLegend("bottomleft", pal = pal, values = states_merged$total_boosters_per_hundred, 
+             layerId = "colorLegend", title = "Booster Shot %", opacity = 1)
 
 
 
-# Server \/   **************
+#Server 
 
 server <- function(input, output) {
   
@@ -166,7 +165,7 @@ server <- function(input, output) {
                   popup = ~total_boosters_per_hundred) %>% 
       addLegend("bottomleft", pal = pal, values = states_merged$total_boosters_per_hundred, 
                 layerId = "colorLegend", title = "Booster Shot %", opacity = 1) %>% 
-      setView(-100, 40, zoom = 3.5)
+      setView(-100, 40, zoom = 2.5)
   })
   
 }
