@@ -95,12 +95,13 @@ top_15_country_deaths <- data %>%
 
 
 top_15_country_plot <- ggplot(data = top_15_country_deaths, aes(x = fct_inorder(Country),
-                                                     y = Total_Deaths, color = Male_Deaths, Female_Deaths)) +
+                                                     y = Total_Deaths)) +
   geom_point() +
   labs(title = "Top 15 Highest COVID Deaths by Country vs Gender", x = "Country", y = "Deaths from COVID") + theme(axis.text.x = element_text(angle = 90))
 
 top_15_country_plot
 
+palette1 <- c("blue","red")  
 
 
 
@@ -140,7 +141,18 @@ pal <- colorNumeric("Blues", domain = states_merged$total_boosters_per_hundred)
 
 server <- function(input, output) {
   
-  
+    
+    currentpalette <- reactive({
+      if (input$selectedvariable == "grouping1"){palette1}
+      else if (input$selectedvariable == "grouping2"){palette2}
+    })
+    output$myplot <- renderPlot({
+      ggplot() +
+        geom_point(data = toydataset,
+                   aes_string(x = "x", y = "y", color = input$selectedvariable)) +
+        scale_color_manual(values = currentpalette())
+    })
+    
   output$map <- renderLeaflet({
     leaflet(states_merged) %>%
       addTiles() %>% 

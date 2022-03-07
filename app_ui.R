@@ -14,7 +14,16 @@ tab2 <- fluidPage(
 
 
 tab3 <- fluidPage(
-  plotOutput("top_15_country_plot")
+  vars <- setdiff(names(data), "Country")
+  pageWithSidebar(
+    headerPanel('Top 15 Highest COVID Deaths by Country vs Gender'),
+    sidebarPanel(
+      selectInput('xcol', 'X Variable', vars),
+      selectInput(inputId = "selectedvariable", label = "Select a gender", choices = c("Male_Deaths","Female_Deaths")),
+    mainPanel(
+      plotOutput('top_15_country_plot')
+    )
+  )
 )
 
 tab4 <- fluidPage(
