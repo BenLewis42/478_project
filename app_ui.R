@@ -14,6 +14,7 @@ tab2 <- fluidPage(
 
 
 tab3 <- fluidPage(
+  plotOutput("top_15_country_plot")
 )
 
 tab4 <- fluidPage(

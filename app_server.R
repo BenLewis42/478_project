@@ -89,16 +89,18 @@ Male_deaths_plot
 top_15_country_deaths <- data %>%
   filter(Deaths.date == "2022/03/01") %>%
   arrange(desc(Deaths.where.sex.disaggregated.data.is.available)) %>%
-  select(Country, Deaths.where.sex.disaggregated.data.is.available, X2020) %>%
-  rename(Deaths = Deaths.where.sex.disaggregated.data.is.available, GDP = X2020) %>%
+  select(Country, Deaths.where.sex.disaggregated.data.is.available, Deaths....male., Deaths....female.) %>%
+  rename(Total_Deaths = Deaths.where.sex.disaggregated.data.is.available, Male_Deaths = Deaths....male., Female_Deaths = Deaths....female.) %>%
   top_n(15)
 
-GDP_plot <- ggplot(data = top_15_country_deaths, aes(x = fct_inorder(Country),
-                                                     y = Deaths, color = GDP)) +
-  geom_point() +
-  labs(title = "Top 15 COVID Deaths by Country vs GDP", x = "Country", y = "Deaths from COVID") + theme(axis.text.x = element_text(angle = 90))
 
-GDP_plot
+top_15_country_plot <- ggplot(data = top_15_country_deaths, aes(x = fct_inorder(Country),
+                                                     y = Total_Deaths, color = Male_Deaths, Female_Deaths)) +
+  geom_point() +
+  labs(title = "Top 15 Highest COVID Deaths by Country vs Gender", x = "Country", y = "Deaths from COVID") + theme(axis.text.x = element_text(angle = 90))
+
+top_15_country_plot
+
 
 
 
