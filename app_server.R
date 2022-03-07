@@ -88,19 +88,17 @@ Male_deaths_plot
 top_15_country_deaths <- data %>%
   filter(Deaths.date == "2022/03/01") %>%
   arrange(desc(Deaths.where.sex.disaggregated.data.is.available)) %>%
-  select(Country, Deaths.where.sex.disaggregated.data.is.available, Deaths....male., Deaths....female.) %>%
-  rename(Total_Deaths = Deaths.where.sex.disaggregated.data.is.available, Male_Deaths = Deaths....male., Female_Deaths = Deaths....female.) %>%
+  select(Country, Deaths.where.sex.disaggregated.data.is.available, Cases.where.sex.disaggregated.data.is.available, Proportion.of.deaths.in.confirmed.cases..Male.female.ratio.) %>%
+  rename(Total_Deaths = Deaths.where.sex.disaggregated.data.is.available, Total_Cases = Cases.where.sex.disaggregated.data.is.available, Gender_Ratio = Proportion.of.deaths.in.confirmed.cases..Male.female.ratio.) %>%
   top_n(15)
 
 
-top_15_country_plot <- ggplot(data = top_15_country_deaths, aes(x = fct_inorder(Country),
+top_15_country_bar_plot <- ggplot(data = top_15_country_deaths, aes(x = fct_inorder(Country),
                                                      y = Total_Deaths)) +
-  geom_point() +
+  geom_bar(stat = "identity", position = "stack") +
   labs(title = "Top 15 Highest COVID Deaths by Country vs Gender", x = "Country", y = "Deaths from COVID") + theme(axis.text.x = element_text(angle = 90))
 
 top_15_country_plot
-
-palette1 <- c("blue","red")  
 
 
 
@@ -139,17 +137,10 @@ map <- leaflet(states_merged) %>%
 #Server 
 
 server <- function(input, output) {
-  
-    
-    currentpalette <- reactive({
-      if (input$selectedvariable == "grouping1"){palette1}
-      else if (input$selectedvariable == "grouping2"){palette2}
-    })
-    output$myplot <- renderPlot({
-      ggplot() +
-        geom_point(data = toydataset,
-                   aes_string(x = "x", y = "y", color = input$selectedvariable)) +
-        scale_color_manual(values = currentpalette())
+    output$top_15_country_plot <- renderPlot({
+      ggplot(data = top_15_country_deaths, aes(x = Country,
+                                               y = input$ycol)) +
+        geom_bar(stat = "identity", position = "stack") 
     })
     
   output$map <- renderLeaflet({

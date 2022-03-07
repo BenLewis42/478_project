@@ -11,9 +11,9 @@ tab1 <-  tabPanel("Introduction",
 tab2 <- tabPanel("Map",
                  sidebarLayout(
                    sidebarPanel(
-                     # radioButtons("plotType", "Plot type",
-                     #              c("Scatter"="p", "Line"="l")
-                     # )
+                     radioButtons("plotType", "Plot type",
+                                  c("Scatter"="p", "Line"="l")
+                      ),
                      h2("Booster Distribution"),
                      p('This map displays the % each states\'s population who has recieved at least 
                        one booster shot. This shows significantly lower booster rates in the Southern U.S.,
@@ -28,26 +28,25 @@ tab2 <- tabPanel("Map",
 
 
 
-tab3 <- fluidPage(
-  vars <- setdiff(names(data), "Country")
+tab3 <- tabPanel("Gender",
   pageWithSidebar(
     headerPanel('Top 15 Highest COVID Deaths by Country vs Gender'),
     sidebarPanel(
-      selectInput('xcol', 'X Variable', vars),
-      selectInput(inputId = "selectedvariable", label = "Select a gender", choices = c("Male_Deaths","Female_Deaths")),
+      selectInput(inputId = "ycol", label = "Select Y Value", choices = c("Total_Deaths", "Total_Cases", "Gender_Ratio"))
+      ),
     mainPanel(
       plotOutput('top_15_country_plot')
     )
-  )
+)
 )
 
-tab4 <- tabPanel(
+tab4 <- tabPanel("Location"
 )
 
 
-ui <- navbarPage("INFO 478: Covid 19",
+ui <- navbarPage(title = "INFO 478: Covid 19",
                  tab1,
-                 tab2
+                 tab2,
                  tab3,
                  tab4
 )
