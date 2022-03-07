@@ -154,7 +154,7 @@ server <- function(input, output) {
                   popup = ~total_boosters_per_hundred) %>% 
       addLegend("bottomleft", pal = pal, values = states_merged$total_boosters_per_hundred, 
                 layerId = "colorLegend", title = "Booster Shot %", opacity = 1) %>% 
-      setView(-100, 40, zoom = 3.5)
+      setView(-100, 40, zoom = 2.5)
   })
   
 }
