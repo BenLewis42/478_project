@@ -98,7 +98,7 @@ top_15_country_bar_plot <- ggplot(data = top_15_country_deaths, aes(x = fct_inor
   geom_bar(stat = "identity", position = "stack") +
   labs(title = "Top 15 Highest COVID Deaths by Country vs Gender", x = "Country", y = "Deaths from COVID") + theme(axis.text.x = element_text(angle = 90))
 
-top_15_country_plot
+renderPlot("top_15_country_plot")
 
 
 
@@ -158,7 +158,18 @@ server <- function(input, output) {
                 layerId = "colorLegend", title = "Booster Shot %", opacity = 1) %>% 
       setView(-100, 40, zoom = 2.5)
   })
-  
+  output$gender_scatter <- renderPlot({
+    h = c(input$select)
+    Gender_deaths_plot <- ggplot() +
+      geom_point(data = data, aes(x = Cases....female.,
+                                  y = Deaths....female.)) +
+      labs(title = "Proportion of Deaths vs Proportion of Cases for Females",
+           x = "Proportion of confirmed cases Female (%)",
+           y = "Proportion of deaths in confirmed cases Female (%)") +
+      geom_point(data = data[h, ], aes(x = Cases....female.,
+                                    y = Deaths....female.), colour = "red")
+    return(Gender_deaths_plot)
+  })
 }
 
 

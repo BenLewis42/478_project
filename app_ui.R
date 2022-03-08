@@ -37,8 +37,20 @@ tab3 <- tabPanel("Gender",
     mainPanel(
       plotOutput('top_15_country_plot')
     )
+    ),
+  pageWithSidebar(
+    headerPanel("hi"),
+    sidebarPanel(
+      selectInput("selectcountry", label = h3("Select box"), 
+                  choices = list("United States" = "USA", "Choice 2" = 2, "Choice 3" = 3), 
+                  selected = "USA")
+    ),
+    mainPanel(
+      plotOutput('gender_scatter')
+    )
+  )
 )
-)
+
 
 tab4 <- tabPanel("Location"
 )
