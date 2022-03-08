@@ -96,7 +96,8 @@ top_15_country_deaths <- data %>%
 top_15_country_bar_plot <- ggplot(data = top_15_country_deaths, aes(x = fct_inorder(Country),
                                                      y = Total_Deaths)) +
   geom_bar(stat = "identity", position = "stack") +
-  labs(title = "Top 15 Highest COVID Deaths by Country vs Gender", x = "Country", y = "Deaths from COVID") + theme(axis.text.x = element_text(angle = 90))
+  labs(title = "Top 15 Highest COVID Deaths by Country vs Gender", x = "Country", y = "Deaths from COVID") + 
+    theme(axis.text.x = element_text(angle = 90))
 
 renderPlot("top_15_country_plot")
 
