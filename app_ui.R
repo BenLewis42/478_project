@@ -1,5 +1,6 @@
 library(shiny)
 library(leaflet)
+source("app_server.R")
 
 tab1 <-  tabPanel("Introduction",
   tags$p(
@@ -30,12 +31,12 @@ tab2 <- tabPanel("Map",
 
 tab3 <- tabPanel("Gender",
   pageWithSidebar(
-    headerPanel('Top 15 Highest COVID Deaths by Country vs Gender'),
+    headerPanel('Exploring Gender, GDP, COVID Deaths and Cases'),
     sidebarPanel(
-      selectInput(inputId = "ycol", label = "Select Y Value", choices = c("Total_Deaths", "Total_Cases", "Gender_Ratio"))
+      varSelectInput("ycol", label = "Select Y Value", y_variables, selected = "Total_Deaths")
       ),
     mainPanel(
-      plotOutput('top_15_country_plot')
+      plotOutput('top_10_country_bar_plot')
     )
     ),
   pageWithSidebar(

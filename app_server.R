@@ -4,6 +4,7 @@ library(tidyverse)
 library(leaflet)
 library(tigris)
 
+
 data <- read.csv('data/global_dataset.csv') 
 gdp_data <- read.csv('data/gdp_dataset.csv') 
 raw_state_data <- read.csv('data/us_state_vaccinations.csv') 
@@ -84,22 +85,25 @@ Male_deaths_plot
 
 
 
-
-top_15_country_deaths <- data %>%
+top_10_country_GDP <- data %>%
   filter(Deaths.date == "2022/03/01") %>%
   arrange(desc(Deaths.where.sex.disaggregated.data.is.available)) %>%
-  select(Country, Deaths.where.sex.disaggregated.data.is.available, Cases.where.sex.disaggregated.data.is.available, Proportion.of.deaths.in.confirmed.cases..Male.female.ratio.) %>%
-  rename(Total_Deaths = Deaths.where.sex.disaggregated.data.is.available, Total_Cases = Cases.where.sex.disaggregated.data.is.available, Gender_Ratio = Proportion.of.deaths.in.confirmed.cases..Male.female.ratio.) %>%
-  top_n(15)
+  select(Country, Deaths.where.sex.disaggregated.data.is.available, Cases.where.sex.disaggregated.data.is.available, Proportion.of.deaths.in.confirmed.cases..Male.female.ratio., X2020) %>%
+  rename(Total_Deaths = Deaths.where.sex.disaggregated.data.is.available, Total_Cases = Cases.where.sex.disaggregated.data.is.available, Gender_Ratio = Proportion.of.deaths.in.confirmed.cases..Male.female.ratio., GDP = X2020) %>%
+  top_n(10)
+
+y_variables <- top_10_country_GDP %>%
+  select(Total_Deaths, Total_Cases, Gender_Ratio)
 
 
-top_15_country_bar_plot <- ggplot(data = top_15_country_deaths, aes(x = fct_inorder(Country),
+
+top_10_country_bar_plot <- ggplot(data = top_10_country_GDP, aes(x = fct_inorder(GDP),
                                                      y = Total_Deaths)) +
   geom_bar(stat = "identity", position = "stack") +
-  labs(title = "Top 15 Highest COVID Deaths by Country vs Gender", x = "Country", y = "Deaths from COVID") + 
+  labs(title = "Top 10 Highest COVID Deaths by Country vs Gender", x = "GDP", y = "Deaths from COVID") + 
     theme(axis.text.x = element_text(angle = 90))
 
-renderPlot("top_15_country_plot")
+renderPlot("top_10_country_bar_plot")
 
 
 
@@ -138,10 +142,22 @@ map <- leaflet(states_merged) %>%
 #Server 
 
 server <- function(input, output) {
-    output$top_15_country_plot <- renderPlot({
-      ggplot(data = top_15_country_deaths, aes(x = Country,
-                                               y = input$ycol)) +
-        geom_bar(stat = "identity", position = "stack") 
+  
+    output$top_10_country_bar_plot <- renderPlot({
+      top_10_country_GDP <- data %>%
+        filter(Deaths.date == "2022/03/01") %>%
+        arrange(desc(Deaths.where.sex.disaggregated.data.is.available)) %>%
+        select(Country, Deaths.where.sex.disaggregated.data.is.available, Cases.where.sex.disaggregated.data.is.available, Proportion.of.deaths.in.confirmed.cases..Male.female.ratio., X2020) %>%
+        rename(Total_Deaths = Deaths.where.sex.disaggregated.data.is.available, Total_Cases = Cases.where.sex.disaggregated.data.is.available, Gender_Ratio = Proportion.of.deaths.in.confirmed.cases..Male.female.ratio., GDP = X2020) %>%
+        top_n(10)
+      
+      ggplot(data = top_10_country_GDP, aes_string(x = "GDP",
+                                               y = input$ycol,
+                                               fill = "Country")) +
+        geom_bar(stat = "identity", position = "dodge") +
+        labs(title = "Exploring Gender, GDP, COVID Deaths and Cases",
+             x = "GDP",
+             y = input$ycol)
     })
     
   output$map <- renderLeaflet({
