@@ -1,5 +1,6 @@
 library(shiny)
 library(leaflet)
+library(tigris)
 source("app_server.R")
 
 tab1 <-  tabPanel("Introduction",
@@ -21,11 +22,8 @@ tab1 <-  tabPanel("Introduction",
 tab2 <- tabPanel("Map",
                  sidebarLayout(
                    sidebarPanel(
-                     radioButtons("plotType", "Plot type",
-                                  c("Scatter"="p", "Line"="l")
-                      ),
-                     h2("Booster Distribution"),
-                     p('This map displays the % each states\'s population who has recieved at least 
+                     h2("US Booster Distribution"),
+                     p('This map displays the % of each states\'s population who has recieved at least 
                        one booster shot. This shows significantly lower booster rates in the Southern U.S.,
                        states which are known to be poorer on average. This demonstrates that economic inequality
                        within the US may affect vaccine distribution.')
@@ -73,7 +71,16 @@ tab3 <- tabPanel("Gender",
 )
 
 
-tab4 <- tabPanel("Conclusion"
+tab4 <- tabPanel("Conclusion",
+                 p("It's indisputable that the COVID-19 pandemic has had a heterogenous
+                   effect across various demographic lines. Analysis of US vaccine distribution
+                   reveals that poorer states seem to have lower vaccination rates. When comparing 
+                   case rates between countries, the line is not so clear, emphasiving the wide range 
+                   of potentially important variables. However, gender analysis shows that overall, 
+                   men are more likely to be diagnose with COVID-19, and more likely to pass away from 
+                   it. In conclusion, the effects of COVID-19 seem to be mediated by both gender and 
+                   economic standing, but these variables are certainly not enough to fully explain
+                   the virus' unequal fallout.")
 )
 
 
