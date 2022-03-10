@@ -12,7 +12,10 @@ tab1 <-  tabPanel("Introduction",
     id = "Introduction",
     "Our research project’s purpose is to explore patterns in COVID-19 cases, deaths, and vaccination 
     rates and observe how different factors, such as gender and economics impact these metrics."),
-  p("This kind of analysis will allow us to find patterns which may help us further understand sturctures within our society. ")
+  p("This kind of analysis will allow us to find patterns which may help us further understand sturctures within our society. "),
+  mainPanel(
+           dataTableOutput('covid_stats_table')
+  )
 )
 
 tab2 <- tabPanel("Map",
@@ -37,9 +40,15 @@ tab2 <- tabPanel("Map",
 
 tab3 <- tabPanel("Gender",
   pageWithSidebar(
-    headerPanel('Exploring Gender, GDP, COVID Deaths and Cases'),
+    headerPanel('Exploring GDP against COVID Deaths, Cases, and Gender Ratio'),
     sidebarPanel(
-      varSelectInput("ycol", label = "Select Y Value", y_variables, selected = "Total_Deaths")
+      varSelectInput("ycol", label = "Select Y Value", y_variables, selected = "Total_Deaths"),
+      p('This bar plot compares GDP across ten countries with the highest COVID-related deaths, cases, and proportion of deaths
+    in confirmed COVID-19 cases (male to female ratio). This data shows The visualization demonstrates that surprisingly, 
+    some countries with a higher GDP have a higher amount of cases and deaths. The gender ratio and GDP seem not have a correlation
+    as the bar plot data is mostly level. This might mean that other factors such as timing can outweigh having more access to more resources and knowledge on fighting the virus. Furthermore, the data might 
+    not also account for COVID deaths that have not been recorded.'
+      ),
       ),
     mainPanel(
       plotOutput('top_10_country_bar_plot')
@@ -60,7 +69,7 @@ tab3 <- tabPanel("Gender",
 )
 
 
-tab4 <- tabPanel("Location"
+tab4 <- tabPanel("Conclusion"
 )
 
 

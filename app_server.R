@@ -3,12 +3,14 @@ library(ggplot2)
 library(tidyverse)
 library(leaflet)
 library(tigris)
+library("readxl")
+
 
 
 data <- read.csv('data/global_dataset.csv') 
 gdp_data <- read.csv('data/gdp_dataset.csv') 
 raw_state_data <- read.csv('data/us_state_vaccinations.csv') 
-
+covid_stats <- read_excel('data/covid_stats.xls')
 
 # fix name (probably only a problem for my machine) -Ben
 colnames(gdp_data)[1] <- "Country.Name"
@@ -63,6 +65,14 @@ female_prop_cases_mean <- round(female_prop_cases_mean, digits = 1)
 male_prop_cases_mean <- round(male_prop_cases_mean, digits = 1)
 
 
+#Covid-19 stats table
+covid_stats_data <- covid_stats %>%
+  arrange(desc(`Cases - cumulative total`)) %>%
+  top_n(25) %>%
+  select(Name, `Cases - cumulative total`, `Cases - cumulative total per 100000 population`, `Deaths - cumulative total`, `Deaths - cumulative total per 100000 population`) %>%
+  rename("Total Cases" = `Cases - cumulative total`, "Total Cases per 100000 population" = `Cases - cumulative total per 100000 population`, 
+         "Total Deaths" = `Deaths - cumulative total`, "Total Deaths per 100000 population" = `Deaths - cumulative total per 100000 population`,
+         "Country" = Name) 
 
 
 
@@ -89,7 +99,7 @@ Male_deaths_plot
 
 
 
-
+# plot for top countries with deaths, cases, gender ratio
 top_10_country_GDP <- data %>%
   filter(Deaths.date == "2022/03/01") %>%
   arrange(desc(Deaths.where.sex.disaggregated.data.is.available)) %>%
@@ -147,7 +157,9 @@ map <- leaflet(states_merged) %>%
 #Server 
 
 server <- function(input, output) {
-  
+    
+    output$covid_stats_table <- renderDataTable(covid_stats_data)
+    
     output$top_10_country_bar_plot <- renderPlot({
       top_10_country_GDP <- data %>%
         filter(Deaths.date == "2022/03/01") %>%
