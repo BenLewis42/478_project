@@ -40,11 +40,11 @@ tab3 <- tabPanel("Gender",
     )
     ),
   pageWithSidebar(
-    headerPanel("hi"),
+    headerPanel("Distribution of Deaths and Cases for Males and Females"),
     sidebarPanel(
-      selectInput("selectcountry", label = h3("Select box"), 
-                  choices = list("United States" = "USA", "Choice 2" = 2, "Choice 3" = 3), 
-                  selected = "USA")
+      selectInput("select", label = h3("Select box"), 
+                  choices = list("Female" = 1, "Male" = 2), 
+                  selected = 1)
     ),
     mainPanel(
       plotOutput('gender_scatter')
