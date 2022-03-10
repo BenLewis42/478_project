@@ -175,27 +175,26 @@ server <- function(input, output) {
                 layerId = "colorLegend", title = "Booster Shot %", opacity = 1) %>% 
       setView(-100, 40, zoom = 2.5)
   })
-  # output$gender_scatter <- renderPlot({
-  #   female_deaths_plot <- ggplot() +
-  #     geom_point(data = data, aes(x = Cases....female.,
-  #                                 y = Deaths....female.)) +
-  #     labs(title = "Proportion of Deaths vs Proportion of Cases for Females",
-  #          x = "Proportion of confirmed cases Female (%)",
-  #          y = "Proportion of deaths in confirmed cases Female (%)") +
-  #     geom_point(data = data[h, ], aes(x = Cases....female.,
-  #                                   y = Deaths....female.), colour = "red")
-  #   male_deaths_plot <- ggplot(data = data, aes(x = Cases....male.,
-  #                                               y = Deaths....male.)) +
-  #     geom_point() +
-  #     labs(title = "Proportion of Deaths for Males vs Proportion of Cases for Males",
-  #          x = "Proportion of confirmed cases Male (%)",
-  #          y = "Proportion of deaths in confirmed cases Male (%)")
-  #   if input$select == 1{
-  #     return(female_deaths_plot)
-  #     }
-  #   if input$select == 2{
-  #     return(male_deaths_plot)}
-  # })
+  
+  output$gender_scatter <- renderPlot({
+    female_deaths_plot <- ggplot() +
+      geom_point(data = data, aes(x = Cases....female.,
+                                  y = Deaths....female.)) +
+      labs(title = "Proportion of Deaths vs Proportion of Cases for Females",
+           x = "Proportion of confirmed cases Female (%)",
+           y = "Proportion of deaths in confirmed cases Female (%)")
+    male_deaths_plot <- ggplot(data = data, aes(x = Cases....male.,
+                                                y = Deaths....male.)) +
+      geom_point() +
+      labs(title = "Proportion of Deaths for Males vs Proportion of Cases for Males",
+           x = "Proportion of confirmed cases Male (%)",
+           y = "Proportion of deaths in confirmed cases Male (%)")
+    if (input$select == 1){
+      return(female_deaths_plot)
+    }
+    if (input$select == 2){
+      return(male_deaths_plot)}
+  })
 }
 
 
