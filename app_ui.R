@@ -60,7 +60,11 @@ tab3 <- tabPanel("Gender",
       selectInput("select", label = h3("Select box"), 
                   choices = list("Female" = 1, "Male" = 2), 
                   selected = 1),
-      fluidRow(verbatimTextOutput("mean"))
+      p("These scatter plots shows the distribution of cases and deaths for both Males and Females. The distributions shows
+        that males seem to have a higher proportion of cases and deaths. Additional research is needed into understanding why this
+        data shows this. It would be interesting to see how testing is distributed in each country as well as that may point to
+        why there is a discrepancy, or it may be due to gender roles being prominent, leading more women to stay at home compared
+        to their male counterparts.")
     ),
     mainPanel(
       plotOutput('gender_scatter')
