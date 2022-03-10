@@ -3,10 +3,16 @@ library(leaflet)
 source("app_server.R")
 
 tab1 <-  tabPanel("Introduction",
-  tags$p(
+  p("The COVID-19 virus has ravaged through the world these past couple of years. Due its high tranmissability,
+    it has spread extremely fast, and through its different variants, it has been able to become more dangerous and has
+    learned to spread even faster. This was all predicted by scientists when they found this new respiratory disease, however,
+    what was not predicted was how the virus was able to expose inequities in the world, with those of different demographics being
+    impacted differently by the virus due to underlying factors."),
+    tags$strong(
     id = "Introduction",
     "Our research project’s purpose is to explore patterns in COVID-19 cases, deaths, and vaccination 
-    rates and observe how factors such as location and factor impact these metrics.")
+    rates and observe how different factors, such as gender and economics impact these metrics."),
+  p("This kind of analysis will allow us to find patterns which may help us further understand sturctures within our society. ")
 )
 
 tab2 <- tabPanel("Map",
@@ -44,7 +50,8 @@ tab3 <- tabPanel("Gender",
     sidebarPanel(
       selectInput("select", label = h3("Select box"), 
                   choices = list("Female" = 1, "Male" = 2), 
-                  selected = 1)
+                  selected = 1),
+      fluidRow(verbatimTextOutput("mean"))
     ),
     mainPanel(
       plotOutput('gender_scatter')

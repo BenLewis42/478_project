@@ -57,6 +57,11 @@ male_prop_deaths_mean <- mean(data$Deaths....male.)
 female_prop_cases_mean <- mean(data$Cases....female.)
 male_prop_cases_mean <- mean(data$Cases....male.)
 
+female_prop_deaths_mean <- round(female_prop_deaths_mean, digits = 1)
+male_prop_deaths_mean <- round(male_prop_deaths_mean, digits = 1)
+female_prop_cases_mean <- round(female_prop_cases_mean, digits = 1)
+male_prop_cases_mean <- round(male_prop_cases_mean, digits = 1)
+
 
 
 
@@ -195,6 +200,23 @@ server <- function(input, output) {
     if (input$select == 2){
       return(male_deaths_plot)}
   })
+  
+  
+  output$mean <- renderPrint({ 
+    if (input$select == 1){
+     c("Deaths Mean Proportion:",
+      female_prop_deaths_mean,
+      "Cases Mean Proportion:",
+      female_prop_cases_mean)
+    }
+    if (input$select == 2){
+      c("Deaths Mean Proportion:",
+        male_prop_deaths_mean,
+        "Cases Mean Proportion:",
+        male_prop_cases_mean
+      )
+    }
+    })
 }
 
 
