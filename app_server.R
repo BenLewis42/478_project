@@ -199,37 +199,26 @@ server <- function(input, output) {
                                   y = Deaths....female.)) +
       labs(title = "Proportion of Deaths vs Proportion of Cases for Females",
            x = "Proportion of confirmed cases Female (%)",
-           y = "Proportion of deaths in confirmed cases Female (%)")
+           y = "Proportion of deaths in confirmed cases Female (%)") +
+      scale_x_discrete(name ="Proportion of confirmed cases Female (%)",
+                       limits=c(10, 20, 30, 40, 50, 60, 70, 80, 90, 100))
     male_deaths_plot <- ggplot(data = data, aes(x = Cases....male.,
                                                 y = Deaths....male.)) +
       geom_point() +
       labs(title = "Proportion of Deaths for Males vs Proportion of Cases for Males",
            x = "Proportion of confirmed cases Male (%)",
-           y = "Proportion of deaths in confirmed cases Male (%)")
+           y = "Proportion of deaths in confirmed cases Male (%)") +
+      scale_x_discrete(name ="Proportion of confirmed cases Male (%)",
+                       limits=c(10, 20, 30, 40, 50, 60, 70, 80, 90, 100))
     if (input$select == 1){
       return(female_deaths_plot)
     }
     if (input$select == 2){
       return(male_deaths_plot)}
   })
-  
-  
-  output$mean <- renderPrint({ 
-    if (input$select == 1){
-     c("Deaths Mean Proportion:",
-      female_prop_deaths_mean,
-      "Cases Mean Proportion:",
-      female_prop_cases_mean)
-    }
-    if (input$select == 2){
-      c("Deaths Mean Proportion:",
-        male_prop_deaths_mean,
-        "Cases Mean Proportion:",
-        male_prop_cases_mean
-      )
-    }
-    })
 }
+  
+
 
 
 
